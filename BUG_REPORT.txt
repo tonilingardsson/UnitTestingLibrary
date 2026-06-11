@@ -1,0 +1,24 @@
+1. LibrarySystem.cs / AddBook
+Bug: Method always returns true and allows books with duplicate ISBN.
+Requirement affected: Every book must have an ISBN and duplicate ISBN must not be allowed.
+Fix: Added validation for null/empty ISBN and duplicate ISBN before adding the book.
+
+2. LibrarySystem.cs / RemoveBook
+Bug: Borrowed books can be removed from the system.
+Requirement affected: Books that are currently borrowed should not be removable.
+Fix: Added a check to prevent removal when IsBorrowed is true.
+
+3. LibrarySystem.cs / SearchByTitle
+Bug: Title search only works for exact matches and is not partial-match based.
+Requirement affected: Search should support partial matches and be case-insensitive.
+Fix: Changed exact comparison to case-insensitive Contains.
+
+4. LibrarySystem.cs / ReturnBook
+Bug: BorrowDate is not reset when a book is returned.
+Requirement affected: BorrowDate must be cleared on return.
+Fix: Set BorrowDate to null in ReturnBook.
+
+5. LibrarySystem.cs / CalculateLateFee
+Bug: Late fee is calculated as daysLate + feePerDay instead of feePerDay * daysLate.
+Requirement affected: Late fees should follow the specified multiplication formula.
+Fix: Changed the calculation to feePerDay * daysLate.
