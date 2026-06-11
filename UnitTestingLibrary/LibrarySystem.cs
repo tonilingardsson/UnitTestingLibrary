@@ -26,6 +26,12 @@ namespace UnitTestingLibrary
 
         public bool AddBook(Book book)
         {
+            if (book == null || string.IsNullOrWhiteSpace(book.ISBN))
+                return false;
+
+            if (books.Any(b => b.ISBN.Equals(book.ISBN, StringComparison.OrdinalIgnoreCase)))
+                return false;
+
             books.Add(book);
             return true;
         }
@@ -33,7 +39,7 @@ namespace UnitTestingLibrary
         public bool RemoveBook(string isbn)
         {
             Book book = SearchByISBN(isbn);
-            if (book != null)
+            if (book != null && !book.IsBorrowed)
             {
                 books.Remove(book);
                 return true;
@@ -43,14 +49,42 @@ namespace UnitTestingLibrary
 
         public Book SearchByISBN(string isbn)
         {
-            return books.FirstOrDefault(b => b.ISBN == isbn);
+            return books.FirstOrDefault(b => b.ISBN.Equals(isbn, StringComparison.OrdinalIgnoreCase));
         }
 
         public List<Book> SearchByTitle(string title)
         {
-            return books.Where(b => b.Title == title).ToList();
+            return books
+                .Where(b => b.Title.Contains(title, StringComparison.OrdinalIgnoreCase))
+                .ToList();
         }
 
+        public bool ReturnBook(string isbn)
+        {
+            Book book = SearchByISBN(isbn);
+            if (book != null && book.IsBorrowed)
+            {
+                book.IsBorrowed = false;
+                book.BorrowDate = null;
+                return true;
+            }
+            return false;
+        }
+
+        public decimal CalculateLateFee(string isbn, int daysLate)
+        {
+            if (daysLate <= 0)
+                return 0;
+
+            Book book = SearchByISBN(isbn);
+            if (book == null)
+                return 0;
+
+            decimal feePerDay = 0.5m;
+            return feePerDay * daysLate;
+        }
+
+        
         public List<Book> SearchByAuthor(string author)
         {
             return books.Where(b => b.Author.Contains(author, StringComparison.OrdinalIgnoreCase)).ToList();
@@ -68,33 +102,9 @@ namespace UnitTestingLibrary
             return false;
         }
 
-        public bool ReturnBook(string isbn)
-        {
-            Book book = SearchByISBN(isbn);
-            if (book != null && book.IsBorrowed)
-            {
-                book.IsBorrowed = false;
-                return true;
-            }
-            return false;
-        }
-
         public List<Book> GetAllBooks()
         {
             return books;
-        }
-
-        public decimal CalculateLateFee(string isbn, int daysLate)
-        {
-            if (daysLate <= 0)
-                return 0;
-
-            Book book = SearchByISBN(isbn);
-            if (book == null)
-                return 0;
-
-            decimal feePerDay = 0.5m;
-            return daysLate + feePerDay;
         }
 
         public bool IsBookOverdue(string isbn, int loanPeriodDays)
