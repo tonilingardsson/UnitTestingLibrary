@@ -73,13 +73,13 @@ namespace UnitTestingLibrary
             Console.WriteLine("=== Add a Book ===");
 
             Console.Write("Enter title: ");
-            string title = Console.ReadLine();
+            string title = Console.ReadLine() ?? "";
 
             Console.Write("Enter author: ");
-            string author = Console.ReadLine();
+            string author = Console.ReadLine() ?? "";
 
             Console.Write("Enter ISBN: ");
-            string isbn = Console.ReadLine();
+            string isbn = Console.ReadLine() ?? "";
 
             Console.Write("Enter publication year: ");
             if (int.TryParse(Console.ReadLine(), out int year))
@@ -107,7 +107,7 @@ namespace UnitTestingLibrary
             Console.WriteLine("=== Remove a Book ===");
 
             Console.Write("Enter ISBN of book to remove: ");
-            string isbn = Console.ReadLine();
+            string isbn = Console.ReadLine() ?? "";
 
             bool success = library.RemoveBook(isbn);
 
@@ -138,18 +138,18 @@ namespace UnitTestingLibrary
                 {
                     case 1:
                         Console.Write("Enter title: ");
-                        searchTerm = Console.ReadLine();
+                        searchTerm = Console.ReadLine() ?? "";
                         results = library.SearchByTitle(searchTerm);
                         break;
                     case 2:
                         Console.Write("Enter author: ");
-                        searchTerm = Console.ReadLine();
+                        searchTerm = Console.ReadLine() ?? "";
                         results = library.SearchByAuthor(searchTerm);
                         break;
                     case 3:
                         Console.Write("Enter ISBN: ");
-                        searchTerm = Console.ReadLine();
-                        Book book = library.SearchByISBN(searchTerm);
+                        searchTerm = Console.ReadLine() ?? "";
+                        Book? book = library.SearchByISBN(searchTerm);
                         if (book != null)
                             results.Add(book);
                         break;
@@ -186,7 +186,7 @@ namespace UnitTestingLibrary
             Console.WriteLine("=== Borrow a Book ===");
 
             Console.Write("Enter ISBN of book to borrow: ");
-            string isbn = Console.ReadLine();
+            string isbn = Console.ReadLine() ?? "";
 
             bool success = library.BorrowBook(isbn);
 
@@ -205,7 +205,7 @@ namespace UnitTestingLibrary
             Console.WriteLine("=== Return a Book ===");
 
             Console.Write("Enter ISBN of book to return: ");
-            string isbn = Console.ReadLine();
+            string isbn = Console.ReadLine() ?? "";
 
             bool success = library.ReturnBook(isbn);
 
@@ -247,7 +247,7 @@ namespace UnitTestingLibrary
             Console.WriteLine("=== Calculate Late Fee ===");
 
             Console.Write("Enter ISBN of book: ");
-            string isbn = Console.ReadLine();
+            string isbn = Console.ReadLine() ?? "";
 
             Console.Write("Enter number of days late: ");
             if (int.TryParse(Console.ReadLine(), out int daysLate))
