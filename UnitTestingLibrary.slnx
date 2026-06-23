@@ -1,4 +1,6 @@
 <Solution>
-  <Project Path="UnitTestingLibrary.Tests/UnitTestingLibrary.Tests.csproj" Id="7d966805-a7ee-4921-834d-b0abd6bee620" />
+  <Project Path="UnitTestingLibrary.Tests/UnitTestingLibrary.Tests.csproj" Id="7d966805-a7ee-4921-834d-b0abd6bee620">
+    <Build Solution="Debug|*" Project="false" />
+  </Project>
   <Project Path="UnitTestingLibrary/UnitTestingLibrary.csproj" />
 </Solution>
