@@ -38,7 +38,7 @@ namespace UnitTestingLibrary
 
         public bool RemoveBook(string isbn)
         {
-            Book book = SearchByISBN(isbn);
+            Book? book = SearchByISBN(isbn);
             if (book != null && !book.IsBorrowed)
             {
                 books.Remove(book);
@@ -47,7 +47,7 @@ namespace UnitTestingLibrary
             return false;
         }
 
-        public Book SearchByISBN(string isbn)
+        public Book? SearchByISBN(string isbn)
         {
             return books.FirstOrDefault(b => b.ISBN.Equals(isbn, StringComparison.OrdinalIgnoreCase));
         }
@@ -61,7 +61,7 @@ namespace UnitTestingLibrary
 
         public bool ReturnBook(string isbn)
         {
-            Book book = SearchByISBN(isbn);
+            Book? book = SearchByISBN(isbn);
             if (book != null && book.IsBorrowed)
             {
                 book.IsBorrowed = false;
@@ -76,7 +76,7 @@ namespace UnitTestingLibrary
             if (daysLate <= 0)
                 return 0;
 
-            Book book = SearchByISBN(isbn);
+            Book? book = SearchByISBN(isbn);
             if (book == null)
                 return 0;
 
@@ -92,7 +92,7 @@ namespace UnitTestingLibrary
 
         public bool BorrowBook(string isbn)
         {
-            Book book = SearchByISBN(isbn);
+            Book? book = SearchByISBN(isbn);
             if (book != null && !book.IsBorrowed)
             {
                 book.IsBorrowed = true;
@@ -109,7 +109,7 @@ namespace UnitTestingLibrary
 
         public bool IsBookOverdue(string isbn, int loanPeriodDays)
         {
-            Book book = SearchByISBN(isbn);
+            Book? book = SearchByISBN(isbn);
             if (book != null && book.IsBorrowed && book.BorrowDate.HasValue)
             {
                 TimeSpan borrowedFor = DateTime.Now - book.BorrowDate.Value;
