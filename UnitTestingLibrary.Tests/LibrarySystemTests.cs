@@ -70,7 +70,7 @@ namespace UnitTestingLibrary.Tests
 
             var results = library.SearchByTitle("hob");
 
-            Assert.AreEqual(1, results.Count);
+            Assert.HasCount(1, results);
             Assert.AreEqual("The Hobbit", results[0].Title);
         }
 
@@ -81,7 +81,7 @@ namespace UnitTestingLibrary.Tests
 
             var results = library.SearchByAuthor("tolkien");
 
-            Assert.AreEqual(1, results.Count);
+            Assert.HasCount(1, results);
             Assert.AreEqual("The Hobbit", results[0].Title);
         }
 
@@ -105,8 +105,8 @@ namespace UnitTestingLibrary.Tests
             var book = library.SearchByISBN("9780451524935");
 
             Assert.IsTrue(result);
-            Assert.IsTrue(book.IsBorrowed);
-            Assert.IsNotNull(book.BorrowDate);
+            Assert.IsTrue(book?.IsBorrowed);
+            Assert.IsNotNull(book?.BorrowDate);
         }
 
         [TestMethod]
@@ -130,8 +130,8 @@ namespace UnitTestingLibrary.Tests
             var book = library.SearchByISBN("9780451524935");
 
             Assert.IsTrue(result);
-            Assert.IsFalse(book.IsBorrowed);
-            Assert.IsNull(book.BorrowDate);
+            Assert.IsFalse(book?.IsBorrowed);
+            Assert.IsNull(book?.BorrowDate);
         }
 
         [TestMethod]
@@ -181,6 +181,10 @@ namespace UnitTestingLibrary.Tests
             library.BorrowBook("9780451524935");
 
             var book = library.SearchByISBN("9780451524935");
+
+            Assert.IsNotNull(book);
+            Assert.IsTrue(book.IsBorrowed);
+            Assert.IsNotNull(book.BorrowDate);
             book.BorrowDate = DateTime.Now.AddDays(-15);
 
             var result = library.IsBookOverdue("9780451524935", 14);
